@@ -90,3 +90,4 @@ ENV/
 
 # class slides
 /slides
+.DS_Store
