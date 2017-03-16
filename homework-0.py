@@ -36,7 +36,7 @@ def main_list():
     number = 0
     number = int(input("Please enter an integer from 1 to 10 >> "))
     slice = letters[0:number] #start at 0 and go for length of number
-    print("part 1")
+    print("part 1", slice)
     print(slice)
     print("part 2 -- consonants only")
     print(split_by_vowels(slice, False))
