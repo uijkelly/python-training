@@ -1,0 +1,3 @@
+User chose: Rock. Computer chose: Paper. Result was: Loss 
+User chose: Paper. Computer chose: Rock. Result was: Win 
+User chose: Scissors. Computer chose: Paper. Result was: Win 

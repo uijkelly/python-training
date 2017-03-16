@@ -14,6 +14,7 @@
 
 import random
 
+
 def convert_choice_to_char(int_choice):
     """
     converts integer version of choice to a character
@@ -30,6 +31,14 @@ def convert_choice_to_desc(char_choice):
     """
     rps_dict = {"R": "Rock", "P":"Paper", "S":"Scissors"}
     return rps_dict[char_choice]
+
+def convert_result_to_desc(result):
+    """
+    converts result character to long description
+    """
+    res_dict = {'W':"Win",'L':"Loss",'T':"Tie"}
+    return res_dict[result]
+
 
 def compare_choice(user_choice, computer_choice):
     """
@@ -79,7 +88,7 @@ def compare_with_tuple(user_choice, computer_choice):
     to debug
     """
     print("")
-    print ("##### Trying again with different code ######")
+    print ("##### Here is the match ######")
     print ("User Choice is: ", convert_choice_to_desc(user_choice))
     print("Computer Choice is: ", convert_choice_to_desc(computer_choice))
 
@@ -113,6 +122,10 @@ def main():
     results = {"W":0,"L":0,"T":0} #wins loses and ties.
     # keep choices as:
     all_user_games = []
+
+    # open file to write results
+    # overwrite the file if it exists
+    f = open("game_results.txt",'w')
 
     while keep_playing:
         # info about this game.
@@ -148,12 +161,19 @@ def main():
         # create a list of this game and append to list all_user_games
         this_game = [user_choice, computer_choice, game_result]
         all_user_games.append(this_game)
-        print("all user games, list of lists", all_user_games)
+
+        #print("all user games, list of lists", all_user_games)
 
         # but also do the part I wanted to with the dict above just to work out
         # my old, tired brain.
         results[game_result] += 1
-        print("results dict: ", results)
+
+        #print("results dict: ", results)
+
+
+        f.write('User chose: {}. Computer chose: {}. Result was: {} \n'.format(convert_choice_to_desc(user_choice),
+                                                            convert_choice_to_desc(computer_choice),
+                                                            convert_result_to_desc(game_result)))
 
         # print summary of wins
         # for developing list comprehension below
@@ -164,11 +184,14 @@ def main():
         #print("for checking below: ", wins)
 
         wins = [all_user_games[i] for i in range(0,len(all_user_games)) if all_user_games[i][2] =='W']
+        # sort by user_choice
+        wins.sort()
         print ("Summary of all user wins so far:", wins)
 
         # reimplement the above with a lambda function and a filter
+        #print("using lambda and filter?? ")
+        #print (filter(lambda (w,c,r): r='W',all_user_games ))
 
-        # sort by user_choice
 
         # add do you want to play again?
         try:
@@ -178,10 +201,14 @@ def main():
         except:
             print("Unknown Error at user input")
 
-        # at the end of playing, writing summary
-        print ("#### SUMMARY OF GAMES #####")
-        print ("Thanks for playing! You won {} games.".format(results["W"]))
-
+        if keep_playing == False:
+            f.close() # close file for writing.
+            # at the end of playing, writing summary
+            print ("#### SUMMARY OF GAMES #####")
+            print ("Thanks for playing! You won {} games.".format(results["W"]))
+            f = open("game_results.txt",'r') #read only
+            for line in f:
+                print(line, end='')
 
 
 
