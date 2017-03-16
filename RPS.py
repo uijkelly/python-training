@@ -52,10 +52,10 @@ def compare_choice(user_choice, computer_choice):
         else: # must be Scissors
             return "User Loses! Computer wins. Scissors cut Paper."
     else: # user_choice must be Scissors
-        if computer_choice == "R":
-            return "User Loses! Computer wins. Rock beats Scissors."
-        else: # must be Paper
+        if computer_choice == "P":
             return "User Wins! Scissors cut Paper!"
+        else: # must be Rock
+            return "User Loses! Computer wins. Rock beats Scissors."
 
 def compare_with_ifs(user_choice, computer_choice):
     """
@@ -130,7 +130,7 @@ def main():
 
         compare_with_tuple(user_choice, computer_choice)
 
-        keep_playing = False
+        keep_playing = False #stop playing. TODO add choice
 
 
 
