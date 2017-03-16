@@ -156,12 +156,19 @@ def main():
         print("results dict: ", results)
 
         # print summary of wins
-        wins=[]
-        for i in range(0,len(all_user_games)):
-            if all_user_games[i][2] == 'W':
-                wins.append(all_user_games[i])
-            print ("Summary of all user wins so far:", wins)
+        # for developing list comprehension below
+        # wins=[]
+        # for i in range(0,len(all_user_games)):
+        #    if all_user_games[i][2] == 'W':
+        #        wins.append(all_user_games[i])
+        #print("for checking below: ", wins)
 
+        wins = [all_user_games[i] for i in range(0,len(all_user_games)) if all_user_games[i][2] =='W']
+        print ("Summary of all user wins so far:", wins)
+
+        # reimplement the above with a lambda function and a filter
+
+        # sort by user_choice
 
         # add do you want to play again?
         try:
