@@ -85,9 +85,9 @@ def compare_with_tuple(user_choice, computer_choice):
 
     # create a dict that will tell us who wins and then just look for the tuple.
     # key is the game result, and the value is the tuples that give that result.
-    all_games = { "User Wins!!": (("P","R"), ("R","S"), ("S","P")), # this is a game_set below
-                  "It's a Tie.": (("P","P"), ("R","R"), ("S","S")), # this is a game_set below
-                  "Computer Wins, sorry.": (("R","P"), ("S","R"), ("P","S")) # this is a game_set below
+    all_games = { "W": (("P","R"), ("R","S"), ("S","P")), # this is a game_set below
+                  "T": (("P","P"), ("R","R"), ("S","S")), # this is a game_set below
+                  "L": (("R","P"), ("S","R"), ("P","S")) # this is a game_set below
     }
     # create tuple of user and computer choices
     this_game = (user_choice, computer_choice)
@@ -96,16 +96,30 @@ def compare_with_tuple(user_choice, computer_choice):
     for a_game_set in all_games:
         if this_game in all_games[a_game_set]: # search the row for this game
             # print the result!
-            print(a_game_set) # the game_set is the key, the tuples are the values
-
+            if a_game_set == "W":
+                print ("User Wins!")
+            elif a_game_set == "T":
+                print ("It's a Tie.")
+            else:
+                print ("Sorry, you lose. Computer wins.")
+            #print(a_game_set) # the game_set is the key, the tuples are the values
+            return a_game_set
 
 def main():
     ### Get user input. Same in both examples I want to try.
-    keep_playing = True #TODO
-    results = (0,0,0) # wins, loses and ties
+
+    ## Save results for all games here, so we aren't resetting within the game loop
+    keep_playing = True
+    results = {"W":0,"L":0,"T":0} #wins loses and ties.
+    # keep choices as:
+    all_user_games = []
+
     while keep_playing:
+        # info about this game.
+        this_game = [] # will use this list to keep the choices and result of this game
         valid_choice = False
         choices = ["R","P","S"]
+
         while not valid_choice:
             try:
                 user_choice = input("Would you like to play Rock (R), Paper (P), or Scissors (S)? ")
@@ -127,10 +141,39 @@ def main():
         # this is more true to the class at this point, but no
         # need to run both all the time!
         # compare_with_ifs(user_choice, computer_choice)
+        #
+        # game result is "W","L", or "T"
+        game_result = compare_with_tuple(user_choice, computer_choice)
+        # keep this game as a list (per instructions, list of lists)
+        # create a list of this game and append to list all_user_games
+        this_game = [user_choice, computer_choice, game_result]
+        all_user_games.append(this_game)
+        print("all user games, list of lists", all_user_games)
 
-        compare_with_tuple(user_choice, computer_choice)
+        # but also do the part I wanted to with the dict above just to work out
+        # my old, tired brain.
+        results[game_result] += 1
+        print("results dict: ", results)
 
-        keep_playing = False #stop playing. TODO add choice
+        # print summary of wins
+        wins=[]
+        for i in range(0,len(all_user_games)):
+            if all_user_games[i][2] == 'W':
+                wins.append(all_user_games[i])
+            print ("Summary of all user wins so far:", wins)
+
+
+        # add do you want to play again?
+        try:
+            play_again = input("Would you like to play again?\n Enter (Y) for Yes, and anything else to exit: ")
+            if play_again  != "Y":
+                keep_playing = False #stop playing.
+        except:
+            print("Unknown Error at user input")
+
+        # at the end of playing, writing summary
+        print ("#### SUMMARY OF GAMES #####")
+        print ("Thanks for playing! You won {} games.".format(results["W"]))
 
 
 
